@@ -45,23 +45,42 @@ const App: React.FC = () => {
     setDisplayText("");
   };
 
-  const formula: FormulaNode = {
+  // 初期のFormulaNodeをuseStateで設定
+  const [formulaNode, setFormulaNode] = useState<FormulaNode>({
     operator: "add",
     left: {
       operator: "mul",
-      left: 1,
-      right: 2,
+      left: {
+        result: 2,
+      },
+      right: {
+        result: 2,
+      },
       result: 2,
     },
-    right: 4,
+    right: {
+      result: 4,
+    },
     result: 10,
+  });
+
+  // SOLVEボタンがクリックされたときの処理
+  const handleSolveClick = () => {
+    // solve関数で計算した新しいノードをformulaNodeに設定
+    const newFormulaNode = solve(displayText, buttonStates);
+    if (newFormulaNode !== null) {
+      setFormulaNode(newFormulaNode);
+      console.log(newFormulaNode);
+    } else {
+      console.log("解が見つかりませんでした");
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200 w-full">
       <div className="flex bg-black text-red items-center justify-center flex-col">
         <h1>数式のレンダリング</h1>
-        <FormulaRenderer formulaNode={formula} />
+        <FormulaRenderer formulaNode={formulaNode} />
       </div>
 
       <div className="p-4 bg-white rounded-lg shadow-lg w-full max-w-md">
@@ -110,10 +129,16 @@ const App: React.FC = () => {
               className="calc-button bg-black text-white text-2xl h-16 rounded flex items-center justify-center col-span-3" 
               onClick={() => handleNumberClick("0")}
             >0</button>
-            <button
+            {/* <button
               className="calc-button bg-black text-white text-2xl h-16 rounded col-span-2"
               onClick={() => solve(displayText, buttonStates)}
-            >SOLVE</button>
+            >SOLVE</button> */}
+            <button
+              className="calc-button bg-black text-white text-2xl h-16 rounded col-span-2"
+              onClick={handleSolveClick}
+            >
+              SOLVE
+            </button>
           </div>
         </div>
       </div>

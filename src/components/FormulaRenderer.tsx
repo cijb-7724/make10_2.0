@@ -20,7 +20,18 @@ const FormulaRenderer: React.FC<FormulaRendererProps> = ({ formulaNode }) => {
     }
   }, [formulaNode]);
 
-  return <div id="math-container" className="formula-container" />;
+  // return <div id="math-container" className="formula-container" />;
+  return (
+    <div
+      id="math-container"
+      className="formula-container"
+      style={{
+        fontSize: "2rem",
+        fontFamily: "'STIX Two Math', 'Times New Roman', serif"
+      }}
+    />
+  );
+  
 };
 
 export default FormulaRenderer;

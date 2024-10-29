@@ -13,23 +13,20 @@ export const solve = (displayText: string, buttonStates: boolean[]) => {
   if (buttonStates[3]) operations.push(log);
   if (buttonStates[5]) operations.push(exp);
 
-  if (!buttonStates[1]) parts.sort((a, b) => a-b);
-  let found = false;
+  if (buttonStates[1]) parts.sort((a, b) => a-b);
   do {
     let nodes: FormulaNode[] = parts.map(value => ({ result: value }));
     for (const combination of generateCombinations(n-1, operations)) {
       let resultNode = main(n, nodes, combination);
       if (resultNode) {
         console.log("復元された式:", buildFormula(resultNode));
-        found = true;
-        break;
+        return resultNode;
       }
     }
-    if (!buttonStates[1] || found) break;
+    if (!buttonStates[1]) break;
   } while(nextPermutation(parts));
-  if (!found) {
-    console.log("解が見つかりませんでした");
-  }
+
+  return null;
 };
 
 type FormulaNode = {

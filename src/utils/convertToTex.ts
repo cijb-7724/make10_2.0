@@ -1,34 +1,55 @@
 // src/utils/convertToTex.ts
 export type FormulaNode = {
   operator?: string;
-  left?: FormulaNode | number;
-  right?: FormulaNode | number;
+  left?: FormulaNode;
+  right?: FormulaNode;
   result: number;
 };
 
+// 演算子の優先順位を定義
+const precedence: { [key: string]: number } = {
+  "add": 1,
+  "sub": 1,
+  "mul": 2,
+  "div": 2,
+  "exp": 3,
+  "log": 3,
+};
+
 // TEX表現に変換する関数
-export function convertToTex(node: FormulaNode | number): string {
-  if (typeof node === "number") {
-    return node.toString();
-  }
+export function convertToTex(node: FormulaNode, parentPrecedence: number = 0): string {
+  if (node.operator === undefined) return node.result.toString();
+  if (!node) return "";
 
-  const left = node.left ? convertToTex(node.left) : "";
-  const right = node.right ? convertToTex(node.right) : "";
+  const currentPrecedence = precedence[node.operator];
 
+  // 左右のノードを再帰的に展開
+  const left = node.left ? convertToTex(node.left, currentPrecedence) : "";
+  const right = node.right ? convertToTex(node.right, currentPrecedence) : "";
+
+  // 括弧が必要な場合は括弧で囲む
+  const leftExpr = (node.left && node.left.operator && precedence[node.left.operator] < currentPrecedence)
+    ? `(${left})`
+    : left;
+  const rightExpr = (node.right && node.right.operator && precedence[node.right.operator] <= currentPrecedence)
+    ? `(${right})`
+    : right;
+
+  // TEXコードを演算子ごとに生成
   switch (node.operator) {
     case "add":
-      return `${left} + ${right}`;
+      return `${leftExpr} + ${rightExpr}`;
     case "sub":
-      return `${left} - ${right}`;
+      return `${leftExpr} - ${rightExpr}`;
     case "mul":
-      return `${left} \\times ${right}`;
+      return `${leftExpr} \\times ${rightExpr}`;
     case "div":
-      return `\\frac{${left}}{${right}}`;
+      return `\\frac{${leftExpr}}{${rightExpr}}`;
     case "exp":
-      return `{${left}}^{${right}}`;
+      return `{${leftExpr}}^{${rightExpr}}`;
     case "log":
-      return `\\log_{${left}}${right}`;
+      return `\\log_{${leftExpr}}${rightExpr}`;
     default:
-      return "";
+      return node.result.toString();
   }
 }
