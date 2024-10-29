@@ -9,7 +9,7 @@ interface OperatorButtonProps {
 const OperatorButton: React.FC<OperatorButtonProps> = ({ value, color, onClick }) => {
   return (
     <button
-      className={`${color} text-white text-2xl h-16 rounded`}
+      className={`${color} text-white text-2xl h-16 rounded flex items-center justify-center`}
       onClick={onClick}
     >
       {value}
