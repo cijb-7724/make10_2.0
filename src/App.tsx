@@ -17,15 +17,37 @@ const App: React.FC = () => {
     );
   };
 
+  const [displayText, setDisplayText] = useState<string>("");
   const handleNumberClick = (value: string) => {
-    console.log(`Number clicked: ${value}`);
+    setDisplayText((prev) => {
+      const parts = prev.split(" ");
+      if (parts.length >= 7) {
+        return prev; // 7個以上の場合、何も追加しない
+      }
+      return prev ? `${prev} ${value}` : value;
+    });
+  };
+  
+
+  const handleBackspaceClick = () => {
+    setDisplayText((prev) => {
+      const parts = prev.split(" ");
+      parts.pop(); // 最後の要素を削除
+      return parts.join(" ");
+    });
+  };
+
+  const handleClearClick = () => {
+    setDisplayText("");
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200 w-full">
       <div className="p-4 bg-white rounded-lg shadow-lg w-full max-w-md">
         <div className="grid grid-cols-6 gap-2">
-          <div className="col-span-3 bg-black text-white text-2xl flex items-center justify-center h-16 rounded">1</div>
+          <div className="col-span-3 bg-black text-white text-2xl flex items-center justify-center h-16 rounded">
+            {displayText}
+          </div>
           <div className="col-span-1 flex items-center justify-center text-lg text-black">で</div>
           <div className="col-span-1 bg-black text-white text-2xl flex items-center justify-center h-16 rounded">10</div>
           <div className="col-span-1 flex items-center justify-center text-lg text-black">を作る</div>
@@ -33,10 +55,10 @@ const App: React.FC = () => {
 
         <div className="calc-buttons space-y-2 mt-4">
           <div className="calc-button-row grid grid-cols-5 gap-2">
-            <button className="calc-button bg-black text-white text-2xl h-16 rounded col-span-2">C</button>
-            <button className="calc-button bg-black text-white text-2xl h-16 rounded">←</button>
+            <button className="calc-button bg-black text-white text-2xl h-16 rounded col-span-2" onClick={handleClearClick}>C</button>
+            <button className="calc-button bg-black text-white text-2xl h-16 rounded" onClick={handleBackspaceClick}>←</button>
             <OperatorButton value="÷" color={buttonColors[0]} onClick={() => toggleColor(0)} />
-            <OperatorButton value="↔︎" color={buttonColors[1]} onClick={() => toggleColor(1)} />
+            <OperatorButton value="*↔︎*" color={buttonColors[1]} onClick={() => toggleColor(1)} />
           </div>
 
           <div className="calc-button-row grid grid-cols-5 gap-2">
