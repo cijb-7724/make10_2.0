@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import NumberButton from './components/NumberButton';
 import OperatorButton from './components/OperatorButton';
 import { solve } from './utils/solve';
+import FormulaRenderer from "./components/FormulaRenderer";
+import { FormulaNode } from "./utils/convertToTex";
 
 const App: React.FC = () => {
   // 初期状態: 四則演算（÷, ×, -, +）がtrue、それ以外がfalse
@@ -43,8 +45,25 @@ const App: React.FC = () => {
     setDisplayText("");
   };
 
+  const formula: FormulaNode = {
+    operator: "add",
+    left: {
+      operator: "mul",
+      left: 1,
+      right: 2,
+      result: 2,
+    },
+    right: 4,
+    result: 10,
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-200 w-full">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200 w-full">
+      <div className="flex bg-black text-red items-center justify-center flex-col">
+        <h1>数式のレンダリング</h1>
+        <FormulaRenderer formulaNode={formula} />
+      </div>
+
       <div className="p-4 bg-white rounded-lg shadow-lg w-full max-w-md">
         <div className="grid grid-cols-6 gap-2">
           <div className="col-span-3 bg-black text-white text-2xl flex items-center justify-center h-16 rounded">
