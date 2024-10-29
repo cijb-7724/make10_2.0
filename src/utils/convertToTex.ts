@@ -12,20 +12,20 @@ const precedence: { [key: string]: number } = {
   "sub": 1,
   "mul": 2,
   "div": 2,
-  "exp": 3,
-  "log": 3,
+  "exp": 2,
+  "log": 2,
 };
 
 // TEX表現に変換する関数
-export function convertToTex(node: FormulaNode, parentPrecedence: number = 0): string {
+export function convertToTex(node: FormulaNode): string {
   if (node.operator === undefined) return node.result.toString();
   if (!node) return "";
 
   const currentPrecedence = precedence[node.operator];
 
   // 左右のノードを再帰的に展開
-  const left = node.left ? convertToTex(node.left, currentPrecedence) : "";
-  const right = node.right ? convertToTex(node.right, currentPrecedence) : "";
+  const left = node.left ? convertToTex(node.left) : "";
+  const right = node.right ? convertToTex(node.right) : "";
 
   // 括弧が必要な場合は括弧で囲む
   const leftExpr = (node.left && node.left.operator && precedence[node.left.operator] < currentPrecedence)
