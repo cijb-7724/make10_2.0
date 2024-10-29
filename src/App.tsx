@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
 import NumberButton from './components/NumberButton';
 import OperatorButton from './components/OperatorButton';
+import { solve } from './utils/solve';
 
 const App: React.FC = () => {
-  const [buttonColors, setButtonColors] = useState<string[]>([
-    'bg-green-300', 'bg-green-300', 'bg-green-300',
-    'bg-green-300', 'bg-green-300', 'bg-green-300',
-    'bg-green-300', 'bg-green-300'
+  // 初期状態: 四則演算（÷, ×, -, +）がtrue、それ以外がfalse
+  const [buttonStates, setButtonStates] = useState<boolean[]>([
+    true, false, true, false, true, false, true
   ]);
 
-  const toggleColor = (index: number) => {
-    setButtonColors((prevColors) =>
-      prevColors.map((color, i) =>
-        i === index ? (color === 'bg-green-300' ? 'bg-red-500' : 'bg-green-300') : color
-      )
+  // buttonStatesに基づいて色を設定
+  const getColor = (index: number) => (buttonStates[index] ? 'bg-green-300' : 'bg-red-500');
+
+  // ボタンの状態をトグルする関数
+  const toggleButtonState = (index: number) => {
+    setButtonStates((prevStates) =>
+      prevStates.map((state, i) => (i === index ? !state : state))
     );
   };
 
   const [displayText, setDisplayText] = useState<string>("");
+  
   const handleNumberClick = (value: string) => {
     setDisplayText((prev) => {
       const parts = prev.split(" ");
@@ -28,7 +31,6 @@ const App: React.FC = () => {
     });
   };
   
-
   const handleBackspaceClick = () => {
     setDisplayText((prev) => {
       const parts = prev.split(" ");
@@ -57,36 +59,42 @@ const App: React.FC = () => {
           <div className="calc-button-row grid grid-cols-5 gap-2">
             <button className="calc-button bg-black text-white text-2xl h-16 rounded col-span-2" onClick={handleClearClick}>C</button>
             <button className="calc-button bg-black text-white text-2xl h-16 rounded" onClick={handleBackspaceClick}>←</button>
-            <OperatorButton value="÷" color={buttonColors[0]} onClick={() => toggleColor(0)} />
-            <OperatorButton value="*↔︎*" color={buttonColors[1]} onClick={() => toggleColor(1)} />
+            <OperatorButton value="÷" color={getColor(0)} onClick={() => toggleButtonState(0)} />
+            <OperatorButton value="*↔︎*" color={getColor(1)} onClick={() => toggleButtonState(1)} />
           </div>
 
           <div className="calc-button-row grid grid-cols-5 gap-2">
             <NumberButton value="7" onClick={handleNumberClick} />
             <NumberButton value="8" onClick={handleNumberClick} />
             <NumberButton value="9" onClick={handleNumberClick} />
-            <OperatorButton value="×" color={buttonColors[2]} onClick={() => toggleColor(2)} />
-            <OperatorButton value="log" color={buttonColors[3]} onClick={() => toggleColor(3)} />
+            <OperatorButton value="×" color={getColor(2)} onClick={() => toggleButtonState(2)} />
+            <OperatorButton value="log" color={getColor(3)} onClick={() => toggleButtonState(3)} />
           </div>
 
           <div className="calc-button-row grid grid-cols-5 gap-2">
             <NumberButton value="4" onClick={handleNumberClick} />
             <NumberButton value="5" onClick={handleNumberClick} />
             <NumberButton value="6" onClick={handleNumberClick} />
-            <OperatorButton value="-" color={buttonColors[4]} onClick={() => toggleColor(4)} />
-            <OperatorButton value="^" color={buttonColors[5]} onClick={() => toggleColor(5)} />
+            <OperatorButton value="-" color={getColor(4)} onClick={() => toggleButtonState(4)} />
+            <OperatorButton value="^" color={getColor(5)} onClick={() => toggleButtonState(5)} />
           </div>
 
           <div className="calc-button-row grid grid-cols-5 gap-2">
             <NumberButton value="1" onClick={handleNumberClick} />
             <NumberButton value="2" onClick={handleNumberClick} />
             <NumberButton value="3" onClick={handleNumberClick} />
-            <OperatorButton value="+" color={buttonColors[6]} onClick={() => toggleColor(6)} />
+            <OperatorButton value="+" color={getColor(6)} onClick={() => toggleButtonState(6)} />
           </div>
 
           <div className="calc-button-row grid grid-cols-5 gap-2">
-            <button className="calc-button bg-black text-white text-2xl h-16 rounded col-span-3">0</button>
-            <button className="calc-button bg-black text-white text-2xl h-16 rounded col-span-2">SOLVE</button>
+            <button
+              className="calc-button bg-black text-white text-2xl h-16 rounded flex items-center justify-center col-span-3" 
+              onClick={() => handleNumberClick("0")}
+            >0</button>
+            <button
+              className="calc-button bg-black text-white text-2xl h-16 rounded col-span-2"
+              onClick={() => solve(displayText, buttonStates)}
+            >SOLVE</button>
           </div>
         </div>
       </div>
