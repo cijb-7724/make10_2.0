@@ -10,17 +10,20 @@ interface FormulaRendererProps {
 
 const FormulaRenderer: React.FC<FormulaRendererProps> = ({ formulaNode }) => {
   useEffect(() => {
-    const texCode = convertToTex(formulaNode);
     const container = document.getElementById("math-container");
 
     if (container) {
-      katex.render(texCode, container, {
-        throwOnError: false,
-      });
+      if (formulaNode?.result === -691) {
+        container.innerText = "ここに答えが表示されます";
+      } else {
+        const texCode = convertToTex(formulaNode);
+        katex.render(texCode, container, {
+          throwOnError: false,
+        });
+      }
     }
   }, [formulaNode]);
 
-  // return <div id="math-container" className="formula-container" />;
   return (
     <div
       id="math-container"
@@ -31,7 +34,6 @@ const FormulaRenderer: React.FC<FormulaRendererProps> = ({ formulaNode }) => {
       }}
     />
   );
-  
 };
 
 export default FormulaRenderer;

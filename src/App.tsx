@@ -47,21 +47,7 @@ const App: React.FC = () => {
 
   // 初期のFormulaNodeをuseStateで設定
   const [formulaNode, setFormulaNode] = useState<FormulaNode>({
-    operator: "add",
-    left: {
-      operator: "mul",
-      left: {
-        result: 2,
-      },
-      right: {
-        result: 2,
-      },
-      result: 2,
-    },
-    right: {
-      result: 4,
-    },
-    result: 10,
+    result: -691,
   });
 
   // SOLVEボタンがクリックされたときの処理
