@@ -15,6 +15,8 @@ const FormulaRenderer: React.FC<FormulaRendererProps> = ({ formulaNode }) => {
     if (container) {
       if (formulaNode?.result === -691) {
         container.innerText = "ここに答えが表示されます";
+      } else if (formulaNode?.result === 691) {
+        container.innerText = "解が見つかりませんでした";
       } else {
         const texCode = convertToTex(formulaNode);
         katex.render(texCode, container, {
@@ -29,7 +31,7 @@ const FormulaRenderer: React.FC<FormulaRendererProps> = ({ formulaNode }) => {
       id="math-container"
       className="formula-container"
       style={{
-        fontSize: "2rem",
+        fontSize: "1.7rem",
         fontFamily: "'STIX Two Math', 'Times New Roman', serif"
       }}
     />
