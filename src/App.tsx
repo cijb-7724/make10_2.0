@@ -8,7 +8,7 @@ import './index.css';  // CSSファイルをインポート
 
 const App: React.FC = () => {
   const [buttonStates, setButtonStates] = useState<boolean[]>([
-    true, false, true, false, true, false, true
+    true, true, true, false, true, false, true
   ]);
 
   const getColorClass = (index: number) => (buttonStates[index] ? 'operator-button bg-green-200' : 'operator-button bg-red-200');
