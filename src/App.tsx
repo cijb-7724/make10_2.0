@@ -112,7 +112,7 @@ const App: React.FC = () => {
 
         <div className="calc-buttons space-y-2">
           <div className="grid grid-cols-5 gap-2">
-            <button className="calc-button col-span-2" onClick={handleClearClick}>CLEAR2</button>
+            <button className="calc-button col-span-2" onClick={handleClearClick}>CLEAR</button>
             <button className="calc-button" onClick={handleBackspaceClick}>←</button>
             <OperatorButton value="÷" color={getColorClass(0)} onClick={() => toggleButtonState(0)} />
             <OperatorButton value="*↔︎*" color={getColorClass(1)} onClick={() => toggleButtonState(1)} />
