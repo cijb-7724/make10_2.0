@@ -11,7 +11,7 @@ const App: React.FC = () => {
     true, false, true, false, true, false, true
   ]);
 
-  const getColorClass = (index: number) => (buttonStates[index] ? 'operator-button bg-green' : 'operator-button bg-red');
+  const getColorClass = (index: number) => (buttonStates[index] ? 'operator-button bg-green-200' : 'operator-button bg-red-200');
 
   const toggleButtonState = (index: number) => {
     setButtonStates((prevStates) =>
@@ -20,27 +20,45 @@ const App: React.FC = () => {
   };
 
   const [displayText, setDisplayText] = useState<string>("");
-  
+  const [targetValue, setTargetValue] = useState<string>("10");
+  const [isEditingTarget, setIsEditingTarget] = useState<boolean>(false);
+
   const handleNumberClick = (value: string) => {
-    setDisplayText((prev) => {
-      const parts = prev.split(" ");
-      if (parts.length >= 7) {
-        return prev;
-      }
-      return prev ? `${prev} ${value}` : value;
-    });
+    if (isEditingTarget) {
+      setTargetValue((prev) => {
+        if (prev.length >= 6) return prev;
+        return prev + value;
+      });
+    } else {
+      setDisplayText((prev) => {
+        const parts = prev.split(" ");
+        if (parts.length >= 7) return prev;
+        return prev ? `${prev} ${value}` : value;
+      });
+    }
   };
   
   const handleBackspaceClick = () => {
-    setDisplayText((prev) => {
-      const parts = prev.split(" ");
-      parts.pop();
-      return parts.join(" ");
-    });
+    if (isEditingTarget) {
+      setTargetValue((prev) => {
+        if (prev.length === 0) return prev;
+        return prev.slice(0, prev.length-1);
+      });
+    } else {
+      setDisplayText((prev) => {
+        const parts = prev.split(" ");
+        parts.pop();
+        return parts.join(" ");
+      });
+    }
   };
 
   const handleClearClick = () => {
-    setDisplayText("");
+    if (isEditingTarget) {
+      setTargetValue("");
+    } else {
+      setDisplayText("");
+    }
   };
 
   const [formulaNode, setFormulaNode] = useState<FormulaNode>({
@@ -48,26 +66,47 @@ const App: React.FC = () => {
   });
 
   const handleSolveClick = () => {
-    const newFormulaNode = solve(displayText, buttonStates);
+    const newFormulaNode = solve(displayText, buttonStates, targetValue);
     if (newFormulaNode !== null) {
       setFormulaNode(newFormulaNode);
       console.log(newFormulaNode);
     } else {
       console.log("解が見つかりませんでした");
+      const notFound = {
+        result: 691,
+      }
+      setFormulaNode(notFound);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#eb92be] via-[#ffef78] to-[#63c9b4] font-dosis">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-custom-gradient font-dosis">
       <div className="backdrop-blur-lg bg-opacity-30 bg-white rounded-2xl shadow-lg border border-white w-full max-w-md p-6 space-y-4">
-        <FormulaRenderer formulaNode={formulaNode} />
+        <div className="flex justify-center items-center text-black">
+          <FormulaRenderer formulaNode={formulaNode} />
+        </div>
 
-        <div className="grid grid-cols-6 gap-2">
-          <div className="col-span-3 bg-black text-white text-2xl flex items-center justify-center h-16 rounded-lg">
+
+        <div className="grid grid-cols-7 gap-2">
+          <div
+            className="col-span-3 bg-black text-white text-3xl flex items-center justify-center h-16 rounded-lg relative"
+            onClick={() => setIsEditingTarget(false)}
+          >
             {displayText}
+            {!isEditingTarget && (
+              <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-green-500"></div>
+            )}
           </div>
           <div className="col-span-1 flex items-center justify-center text-lg text-black">で</div>
-          <div className="col-span-1 bg-black text-white text-2xl flex items-center justify-center h-16 rounded-lg">10</div>
+          <div
+            className="col-span-2 bg-black text-white text-3xl flex items-center justify-center h-16 rounded-lg relative"
+            onClick={() => setIsEditingTarget(true)}
+          >
+            {targetValue}
+            {isEditingTarget && (
+              <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-green-500"></div>
+            )}
+          </div>
           <div className="col-span-1 flex items-center justify-center text-lg text-black">を作る</div>
         </div>
 

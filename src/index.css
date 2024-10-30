@@ -21,11 +21,11 @@
 .calc-button {
   backdrop-filter: blur(5.5px);
   -webkit-backdrop-filter: blur(5.5px);
-  background: rgba(255, 255, 255, 0.75);
+  background: #cfe8ff;
   border: 1px solid rgba(255, 255, 255, 0.01);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
-  color: #232323;
+  color: #a0522d;
   font-size: 1.5rem;
   height: 65px;
   display: flex;
@@ -33,6 +33,7 @@
   justify-content: center;
   cursor: pointer;
 }
+
 
 .calc-button:hover {
   background-color: rgba(255, 255, 255, 0.85);
@@ -48,7 +49,7 @@
   -webkit-backdrop-filter: blur(5.5px);
   border: 1px solid rgba(255, 255, 255, 0.01);
   border-radius: 16px;
-  color: #ffffff;
+  color: #a0522d;
   font-size: 1.5rem;
   height: 65px;
   display: flex;
@@ -74,3 +75,27 @@
   background-color: #ffef78;
 }
 
+.bg-custom-gradient {
+  background: linear-gradient(
+    320deg,
+    #1a1a1a, #d1d1d1,#1a1a1a, 
+    #555555, #777777, #999999, #b3b3b3, #d1d1d1,
+    #b3b3b3, #999999, #555555, #1a1a1a,
+    #050505, #010101
+  );
+
+  background-size: 400% 400%;
+  animation: smoothGradient 20s ease infinite;
+}
+
+@keyframes smoothGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

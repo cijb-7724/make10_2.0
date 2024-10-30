@@ -1,9 +1,11 @@
 // src/utils/solve.ts
 import { nextPermutation } from "./nextPermutation";
 import { generateCombinations } from "./generateCombinations";
-export const solve = (displayText: string, buttonStates: boolean[]) => {
+export const solve = (displayText: string, buttonStates: boolean[], targetValue: string) => {
   const parts = displayText.split(" ").map(Number);
   let n = parts.length;
+  if (targetValue.length === 0) target = 0;
+  else target = Number(targetValue);
 
   operations = [];
   if (buttonStates[0]) operations.push(div);
@@ -29,6 +31,7 @@ export const solve = (displayText: string, buttonStates: boolean[]) => {
   return null;
 };
 
+let target = 10;
 type FormulaNode = {
   operator?: string;
   left?: FormulaNode;
@@ -43,7 +46,7 @@ function main(
   formulaNode?: FormulaNode
 ): FormulaNode | null {
   if (n === 1) {
-    if (arr[0].result === 10) return formulaNode ?? null;
+    if (arr[0].result === target) return formulaNode ?? null;
     else return null;
   }
 
