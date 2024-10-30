@@ -12,8 +12,8 @@ const precedence: { [key: string]: number } = {
   "sub": 1,
   "mul": 2,
   "div": 2,
-  "exp": 2,
-  "log": 2,
+  "exp": 3,
+  "log": 3,
 };
 
 // TEX表現に変換する関数
@@ -29,10 +29,10 @@ export function convertToTex(node: FormulaNode): string {
 
   // 括弧が必要な場合は括弧で囲む
   const leftExpr = (node.left && node.left.operator && precedence[node.left.operator] < currentPrecedence)
-    ? `(${left})`
+    ? `\\left(${left}\\right)`
     : left;
   const rightExpr = (node.right && node.right.operator && precedence[node.right.operator] <= currentPrecedence)
-    ? `(${right})`
+    ? `\\left(${right}\\right)`
     : right;
 
   // TEXコードを演算子ごとに生成
