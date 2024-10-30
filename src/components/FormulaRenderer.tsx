@@ -13,10 +13,12 @@ const FormulaRenderer: React.FC<FormulaRendererProps> = ({ formulaNode }) => {
     const container = document.getElementById("math-container");
 
     if (container) {
-      if (formulaNode?.result === -691) {
+      if (formulaNode?.result === -1) {
         container.innerText = "ここに答えが表示されます";
-      } else if (formulaNode?.result === 691) {
+      } else if (formulaNode?.result === -2) {
         container.innerText = "解が見つかりませんでした";
+      } else if (formulaNode?.result === -3) {
+        container.innerText = "計算中...";
       } else {
         const texCode = convertToTex(formulaNode);
         katex.render(texCode, container, {
