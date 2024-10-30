@@ -54,13 +54,20 @@ const App: React.FC = () => {
       console.log(newFormulaNode);
     } else {
       console.log("解が見つかりませんでした");
+      const notFound = {
+        result: 691,
+      }
+      setFormulaNode(notFound);
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#eb92be] via-[#ffef78] to-[#63c9b4] font-dosis">
       <div className="backdrop-blur-lg bg-opacity-30 bg-white rounded-2xl shadow-lg border border-white w-full max-w-md p-6 space-y-4">
-        <FormulaRenderer formulaNode={formulaNode} />
+        <div className="flex justify-center items-center text-black">
+          <FormulaRenderer formulaNode={formulaNode} />
+        </div>
+
 
         <div className="grid grid-cols-6 gap-2">
           <div className="col-span-3 bg-black text-white text-2xl flex items-center justify-center h-16 rounded-lg">
