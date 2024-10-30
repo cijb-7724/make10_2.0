@@ -54,7 +54,7 @@ function main(
     let narr = [...arr];
     let nope = [...ope];
     const node: FormulaNode = {
-      operator: nope[i].name,
+      operator: getOperatorName(nope[i]),
       left: arr[i],
       right: narr[i + 1],
       result: nope[i](narr[i].result, narr[i + 1].result),
@@ -91,3 +91,13 @@ function mul(a: number, b: number) { return a * b; }
 function div(a: number, b: number) { return a / b; }
 function log(a: number, b: number) { return Math.log(b) / Math.log(a);}
 function exp(a: number, b: number) { return a ** b; }
+
+function getOperatorName(func: (a: number, b: number) => number): string {
+  if (func === add) return "add";
+  if (func === sub) return "sub";
+  if (func === mul) return "mul";
+  if (func === div) return "div";
+  if (func === log) return "log";
+  if (func === exp) return "exp";
+  return "";
+}
