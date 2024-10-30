@@ -76,14 +76,16 @@
 }
 
 .bg-custom-gradient {
-  /* background: linear-gradient(
+  background: linear-gradient(
     320deg,
-    #4a00e0, #6a00f4, #8338ec, #3a0ca3, #480ca8, #4cc9f0, 
-    #3a86ff, #4361ee, #7209b7, #560bad, #4ea8de, #4361ee,
-    #7209b7, #4a00e0, #480ca8, #4cc9f0
-  ); */
+    #1a1a1a, #d1d1d1,#1a1a1a, 
+    #555555, #777777, #999999, #b3b3b3, #d1d1d1,
+    #b3b3b3, #999999, #555555, #1a1a1a,
+    #050505, #010101
+  );
+
   background-size: 400% 400%;
-  animation: smoothGradient 40s ease infinite;
+  animation: smoothGradient 20s ease infinite;
 }
 
 @keyframes smoothGradient {
@@ -97,5 +99,3 @@
     background-position: 0% 50%;
   }
 }
-
-
