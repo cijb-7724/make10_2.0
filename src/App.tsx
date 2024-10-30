@@ -32,7 +32,7 @@ const App: React.FC = () => {
     } else {
       setDisplayText((prev) => {
         const parts = prev.split(" ");
-        if (parts.length >= 7) return prev;
+        if (parts.length >= 6) return prev;
         return prev ? `${prev} ${value}` : value;
       });
     }
@@ -62,7 +62,7 @@ const App: React.FC = () => {
   };
 
   const [formulaNode, setFormulaNode] = useState<FormulaNode>({
-    result: -691,
+    result: -1,
   });
 
   const handleSolveClick = () => {
@@ -73,7 +73,7 @@ const App: React.FC = () => {
     } else {
       console.log("解が見つかりませんでした");
       const notFound = {
-        result: 691,
+        result: -2,
       }
       setFormulaNode(notFound);
     }
