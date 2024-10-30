@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!-- 背景 -->
+  <rect width="32" height="32" rx="6" fill="#f0f0f0" />
+
+  <!-- 演算子記号 -->
+  <!-- プラス（+） 赤 -->
+  <text x="9" y="12" font-size="19" font-weight="bold" fill="#ff4b4b" text-anchor="middle" dominant-baseline="middle">+</text>
+  
+  <!-- マイナス（-） 青 -->
+  <text x="23" y="12" font-size="19" font-weight="bold" fill="#4b7aff" text-anchor="middle" dominant-baseline="middle">−</text>
+  
+  <!-- かける（×） 黄色 -->
+  <text x="9" y="24" font-size="19" font-weight="bold" fill="#ffdd57" text-anchor="middle" dominant-baseline="middle">×</text>
+  
+  <!-- わる（÷） 緑 -->
+  <text x="23" y="24" font-size="19" font-weight="bold" fill="#4caf50" text-anchor="middle" dominant-baseline="middle">÷</text>
+</svg>
