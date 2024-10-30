@@ -1,50 +1,23 @@
-# React + TypeScript + Vite
+# Make10 2.0
+<img src="https://github.com/cijb-7724/make10_2.0/blob/main/public/preview.png" alt="preview" />
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[ここ](https://cijb-7724.github.io/make10_2.0/)で遊べます.
 
-Currently, two official plugins are available:
+### 通常のMake10
+車のナンバーなどの4つの数字を使って，四則演算や順序の並び替え，括弧を使った優先順位付けを行い，10を作るゲーム．
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 独自の工夫したところ
+- 数字を4つだけでなく，**6つ**まで選択可能にした
+- 四則演算に加えて，**対数**や**指数**の演算を追加した
+- 使用可能な演算子を選択できる機能を追加した
+- 数字の**並び替えを選択式**にした
+- **目標値を10以外**にも設定できるように拡張した
 
-## Expanding the ESLint configuration
+## 計算量
+- 使用する数字の種類: n
+- 使用する演算子の種類: k
+- 並び替え: 可能
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+という問題設定を考える．最初に数字の順番を全通り試して($n!$)，数字の間に演算子を挿入する($k^{n-1}$)．計算の優先順位は$n-1$通りある．1回計算を進めた後は再度計算の優先順位が$n-2$通りあるだけであるので，全体の計算量は$O(n!\:(n-1)!\:k^{n-1})$となる．
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+[実装](https://github.com/cijb-7724/make10_2.0/blob/main/src/utils/solve.ts#L19-L73)
